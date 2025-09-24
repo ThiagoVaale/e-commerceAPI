@@ -1,0 +1,30 @@
+﻿using Domine.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Domine.Entities
+{
+    public class Order
+    {
+        public Guid Id { get; set; } = Guid.NewGuid();
+
+        public Guid ClientId { get; set; }
+        public Client Client { get; set; }
+        public Guid EmployeeId { get; set; }
+        public Employee Employee { get; set; }
+        public string ShippingAddress { get; set; } 
+        public decimal TotalAmount { get; set; }
+        public StatusOrder StatusOrder { get; set; }
+        public PaymentMethod PaymentMethod { get; set; }
+
+        public ICollection<Payment> Payments { get; set; } = new List<Payment>();
+        public ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
+
+        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
+        public DateTime? DeletedAt { get; set; }
+    }
+}
