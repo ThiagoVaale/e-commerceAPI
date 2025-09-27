@@ -1,11 +1,6 @@
 ﻿using Domine.Entities;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Configurations
 {
@@ -15,6 +10,12 @@ namespace Infrastructure.Persistence.Configurations
         {
             builder.HasKey(k => k.Id);
 
+            builder.HasIndex(e => e.Email)
+                .IsUnique();
+
+            builder.HasIndex(e => e.Username)
+                .IsUnique();
+                
             builder.Property(u => u.Username)
                 .IsRequired()
                 .HasMaxLength(50);
@@ -26,21 +27,24 @@ namespace Infrastructure.Persistence.Configurations
             builder.Property(p => p.Password)
                 .IsRequired();
 
-            builder.HasOne(r => r.Role)
-                .WithMany(u => u.Users)
-                .HasForeignKey(r => r.RoleId);
+            builder.HasOne(u => u.Role)
+              .WithMany(r => r.Users)
+              .HasForeignKey(u => u.RoleId)
+              .IsRequired();
 
-            builder.HasOne(c => c.Client)
-                .WithOne(u => u.User)
-                .HasForeignKey<Client>(uId => uId.UserID);
+            builder.HasOne(u => u.Client)
+               .WithOne(c => c.User)
+               .HasForeignKey<Client>(c => c.UserID)
+               .IsRequired();
 
-            builder.HasOne(c => c.Employee)
-                .WithOne(u => u.User)
-                .HasForeignKey<Employee>(eId => eId.UserID);
+            builder.HasOne(u => u.Employee)
+               .WithOne(e => e.User)
+               .HasForeignKey<Employee>(e => e.UserID);
 
-            builder.HasMany(c => c.Carts)
-                .WithOne(u => u.User)
-                .HasForeignKey(c => c.UserId);
+            builder.HasMany(u => u.Carts)
+             .WithOne(c => c.User)
+             .HasForeignKey(c => c.UserId)
+             .IsRequired();
         }
     }
 }

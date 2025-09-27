@@ -20,10 +20,9 @@ namespace Domine.Entities
         public Guid RoleId { get; set; }
         public Role Role { get; set; }
         public ICollection<Cart> Carts { get; set; } = new List<Cart>();
-        public ICollection<Order> Orders { get; set; } = new List<Order>();
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? DeletedAt { get; set; } 
+        public DateTime? DeletedAt { get; set; } = DateTime.UtcNow;
     }
 }

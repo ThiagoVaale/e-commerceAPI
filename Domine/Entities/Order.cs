@@ -12,9 +12,7 @@ namespace Domine.Entities
         public Guid Id { get; set; } = Guid.NewGuid();
 
         public Guid ClientId { get; set; }
-        public Client Client { get; set; }
         public Guid EmployeeId { get; set; }
-        public Employee Employee { get; set; }
         public string ShippingAddress { get; set; } 
         public decimal TotalAmount { get; set; }
         public StatusOrder StatusOrder { get; set; }
@@ -22,9 +20,12 @@ namespace Domine.Entities
 
         public ICollection<Payment> Payments { get; set; } = new List<Payment>();
         public ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
+        public Client Client { get; set; }
+        public Employee Employee { get; set; }
+
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? DeletedAt { get; set; }
+        public DateTime? DeletedAt { get; set; } = DateTime.UtcNow;
     }
 }

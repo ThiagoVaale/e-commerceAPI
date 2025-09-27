@@ -15,8 +15,10 @@ namespace Domine.Entities
         public DateTime HireDate { get; set; }
         public decimal Salary { get; set; }
 
+        public ICollection<Order> Orders { get; set; } = new List<Order>();
+
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime DeletedAt { get; set; }
+        public DateTime DeletedAt { get; set; } = DateTime.UtcNow;
     }
 }

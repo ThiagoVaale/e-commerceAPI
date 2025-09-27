@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Domine.Enums;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,11 +13,10 @@ namespace Domine.Entities
 
         public Guid ClientId { get; set; }
         public string Dni { get; set; }
-
         public Client Client { get; set; }
 
         public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
         public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? DeletedAt { get; set; }
+        public DateTime? DeletedAt { get; set; } = DateTime.UtcNow;
     }
 }
