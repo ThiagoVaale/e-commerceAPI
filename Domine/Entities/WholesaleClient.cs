@@ -7,9 +7,8 @@ using System.Threading.Tasks;
 
 namespace Domine.Entities
 {
-    public class WholesaleClient
+    public class WholesaleClient : BaseEntity
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
 
         public Guid ClientId { get; set; }
         public string CompanyName { get; set; }
@@ -19,9 +18,5 @@ namespace Domine.Entities
         public TierWholesale TierWholesale { get; set; }
 
         public Client Client { get; set; }
-       
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? DeletedAt { get; set; } = DateTime.UtcNow;
     }
 }

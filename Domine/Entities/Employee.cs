@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domine.Entities
 {
-    public class Employee
+    public class Employee : BaseEntity
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
 
         public Guid UserID { get; set; }
         public User User { get; set; }
@@ -16,9 +15,5 @@ namespace Domine.Entities
         public decimal Salary { get; set; }
 
         public ICollection<Order> Orders { get; set; } = new List<Order>();
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime DeletedAt { get; set; } = DateTime.UtcNow;
     }
 }

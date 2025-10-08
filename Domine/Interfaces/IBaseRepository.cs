@@ -9,7 +9,8 @@ namespace Domine.Interfaces
     public interface IBaseRepository <T> where T : class
     {
         T? Get<TId>(TId id);
-        List<T> Get();
-        T Add(T entity);
+        Task<List<T>> Get();
+        Task Add(T entity);
+        Task SaveChangesAsync();
     }
 }

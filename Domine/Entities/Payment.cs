@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Domine.Entities
 {
-    public class Payment
+    public class Payment : BaseEntity
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-
         public Guid OrderId { get; set; }
         public decimal Amount { get; set; }
         public string TransactionId { get; set; }
@@ -20,8 +18,5 @@ namespace Domine.Entities
         public Order Order { get; set; }
 
         public DateTime? PaidAt { get; set; }
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? DeletedAt { get; set; } = DateTime.UtcNow;
     }
 }

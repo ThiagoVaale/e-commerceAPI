@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Domine.Entities
 {
-    public class Order
+    public class Order : BaseEntity
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-
         public Guid ClientId { get; set; }
         public Guid EmployeeId { get; set; }
         public string ShippingAddress { get; set; } 
@@ -22,10 +20,5 @@ namespace Domine.Entities
         public ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
         public Client Client { get; set; }
         public Employee Employee { get; set; }
-
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? DeletedAt { get; set; } = DateTime.UtcNow;
     }
 }

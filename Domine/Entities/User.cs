@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace Domine.Entities
 {
-    public class User
+    public class User : BaseEntity
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-
         public string Username { get; set; }
         public string Password { get; set; }
         public string Email { get; set; }
@@ -20,9 +18,5 @@ namespace Domine.Entities
         public Guid RoleId { get; set; }
         public Role Role { get; set; }
         public ICollection<Cart> Carts { get; set; } = new List<Cart>();
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? DeletedAt { get; set; } = DateTime.UtcNow;
     }
 }

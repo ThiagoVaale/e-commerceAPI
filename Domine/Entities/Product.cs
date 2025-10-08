@@ -7,10 +7,8 @@ using System.Threading.Tasks;
 
 namespace Domine.Entities
 {
-    public class Product
+    public class Product : BaseEntity
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-
         public Guid CategoryId { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
@@ -22,9 +20,5 @@ namespace Domine.Entities
         public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
         public ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
         public Category Category { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? DeletedAt { get; set; } = DateTime.UtcNow;
     }
 }

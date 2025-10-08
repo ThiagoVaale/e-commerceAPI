@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Infrastructure.Repositories
+namespace Infrastructure.Persistence.Repositories
 {
     public class ClientRepository : BaseRepository<Client>, IClientRepository
     {
@@ -19,7 +19,12 @@ namespace Infrastructure.Repositories
 
         public Client? Get(string name)
         {
-            return _context.Clients.FirstOrDefault(c => c.Name == name);
+            throw new NotImplementedException();
         }
+
+        //public Client? Get(string name) 
+        //{
+        //    return _context.Clients.FirstOrDefault(c => c. == name);
+        //}
     }
 }

@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Configurations
 {
-    public class OrderConfiguration : IEntityTypeConfiguration<Order> 
+    public class OrderConfiguration : IEntityTypeConfiguration<Order>
     {
         public void Configure(EntityTypeBuilder<Order> builder)
         {
@@ -47,4 +47,5 @@ namespace Infrastructure.Persistence.Configurations
                  .WithMany(e => e.Orders)
                  .HasForeignKey(o => o.EmployeeId);
         }
+    }
 }

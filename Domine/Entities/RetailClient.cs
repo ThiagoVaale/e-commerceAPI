@@ -7,16 +7,10 @@ using System.Threading.Tasks;
 
 namespace Domine.Entities
 {
-    public class RetailClient
+    public class RetailClient : BaseEntity
     {
-        public Guid Id { get; set; } = Guid.NewGuid();
-
         public Guid ClientId { get; set; }
         public string Dni { get; set; }
         public Client Client { get; set; }
-
-        public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime UpdatedAt { get; set; } = DateTime.UtcNow;
-        public DateTime? DeletedAt { get; set; } = DateTime.UtcNow;
     }
 }
