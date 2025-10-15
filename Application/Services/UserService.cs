@@ -19,9 +19,9 @@ namespace Application.Services
             _userRepository = userRepository;
         }
 
-        public async Task<IEnumerable<User>> CreateUser(CreateUser userRequest)
-        {
-            User? user = _userRepository.Get(userRequest.Username);
-        }
+        //public async Task<IEnumerable<User>> CreateUser(CreateUser userRequest)
+        //{
+        //    User? user = _userRepository.Get(userRequest.Username);
+        //}
     }
 }
