@@ -16,7 +16,8 @@ namespace Infrastructure.Persistence.Configurations
             builder.HasKey(m => m.Id);
 
             builder.Property(mt => mt.MembershipType)
-                .HasConversion<string>();
+                .HasConversion<string>()
+                .IsRequired();
 
             builder.Property(m => m.DiscountRate)
                .IsRequired()
@@ -29,9 +30,9 @@ namespace Infrastructure.Persistence.Configurations
                .IsRequired();
 
             builder.HasOne(m => m.Client)
-                .WithOne(c => c.Membership)
-                .HasForeignKey<Membership>(c => c.ClientId)
-                .IsRequired();
+               .WithMany() 
+               .HasForeignKey(m => m.ClientId)
+               .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

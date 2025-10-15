@@ -16,8 +16,6 @@ namespace Domine.Entities
         public StatusOrder StatusOrder { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
 
-        public ICollection<Payment> Payments { get; set; } = new List<Payment>();
-        public ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
         public Client Client { get; set; }
         public Employee Employee { get; set; }
     }

@@ -23,13 +23,9 @@ namespace Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.HasOne(e => e.User)
-                .WithOne(u => u.Employee)
-                .HasForeignKey<Employee>(e => e.UserID);
-
-            builder.HasMany(e => e.Orders)
-                .WithOne(o => o.Employee)
-                .HasForeignKey(o => o.EmployeeId)
-                .IsRequired(false);
+                .WithMany()
+                .HasForeignKey(e => e.UserID)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

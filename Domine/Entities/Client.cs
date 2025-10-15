@@ -14,11 +14,8 @@ namespace Domine.Entities
         public Guid UserID { get; set; }
         public Guid MembershipId { get; set; }
         public string Address { get; set; }
-        public RetailClient RetailClient { get; set; }
-        public WholesaleClient WholesaleClient { get; set; }
 
         public User User { get; set; }
         public Membership Membership { get; set; }
-        public ICollection<Order> Orders { get; set; } = new List<Order>();
     }
 }

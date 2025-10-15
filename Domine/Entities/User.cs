@@ -13,10 +13,7 @@ namespace Domine.Entities
         public string Email { get; set; }
         public string Phone { get; set; }
         
-        public Client Client { get; set; }
-        public Employee Employee { get; set; }
         public Guid RoleId { get; set; }
         public Role Role { get; set; }
-        public ICollection<Cart> Carts { get; set; } = new List<Cart>();
     }
 }

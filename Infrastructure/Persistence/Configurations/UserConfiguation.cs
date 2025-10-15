@@ -28,23 +28,9 @@ namespace Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.HasOne(u => u.Role)
-              .WithMany(r => r.Users)
+              .WithMany()
               .HasForeignKey(u => u.RoleId)
-              .IsRequired();
-
-            builder.HasOne(u => u.Client)
-               .WithOne(c => c.User)
-               .HasForeignKey<Client>(c => c.UserID)
-               .IsRequired();
-
-            builder.HasOne(u => u.Employee)
-               .WithOne(e => e.User)
-               .HasForeignKey<Employee>(e => e.UserID);
-
-            builder.HasMany(u => u.Carts)
-             .WithOne(c => c.User)
-             .HasForeignKey(c => c.UserId)
-             .IsRequired();
+              .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -31,21 +31,14 @@ namespace Infrastructure.Persistence.Configurations
                 .HasConversion<string>();
 
             builder.HasOne(o => o.Client)
-                .WithMany(c => c.Orders)
+                .WithMany()
                 .HasForeignKey(o => o.ClientId)
-                .IsRequired();
-
-            builder.HasMany(o => o.Payments)
-                .WithOne(p => p.Order)
-                .HasForeignKey(p => p.OrderId);
-
-            builder.HasMany(o => o.OrderItems)
-                .WithOne(oi => oi.Order)
-                .HasForeignKey(oi => oi.OrderId);
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(o => o.Employee)
-                 .WithMany(e => e.Orders)
-                 .HasForeignKey(o => o.EmployeeId);
+                 .WithMany()
+                 .HasForeignKey(o => o.EmployeeId)
+                 .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

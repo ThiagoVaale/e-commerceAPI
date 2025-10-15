@@ -14,9 +14,9 @@ namespace Domine.Entities
         public string TransactionId { get; set; }
         public PaymentStatus PaymentStatus { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
+        public DateTime? PaidAt { get; set; }
 
         public Order Order { get; set; }
 
-        public DateTime? PaidAt { get; set; }
     }
 }

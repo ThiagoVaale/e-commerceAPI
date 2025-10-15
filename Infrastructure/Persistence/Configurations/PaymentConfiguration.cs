@@ -27,9 +27,9 @@ namespace Infrastructure.Persistence.Configurations
                .IsUnique();
 
             builder.HasOne(p => p.Order)
-                .WithMany(o => o.Payments)
+                .WithMany()
                 .HasForeignKey(p => p.OrderId)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.Property(ps => ps.PaymentStatus)
                    .HasConversion<string>();

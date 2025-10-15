@@ -10,10 +10,10 @@ namespace Domine.Entities
     {
 
         public Guid UserID { get; set; }
-        public User User { get; set; }
         public DateTime HireDate { get; set; }
         public decimal Salary { get; set; }
 
-        public ICollection<Order> Orders { get; set; } = new List<Order>();
+        public User User { get; set; }
+
     }
 }

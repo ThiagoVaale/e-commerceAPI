@@ -30,8 +30,9 @@ namespace Infrastructure.Persistence.Configurations
                 .HasPrecision(18,2);
 
             builder.HasOne(tw => tw.Client)
-                .WithOne(c => c.WholesaleClient)
-                .HasForeignKey<WholesaleClient>(tw => tw.ClientId);
+                .WithMany()
+                .HasForeignKey(tw => tw.ClientId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

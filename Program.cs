@@ -65,7 +65,7 @@ builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntentica
 );
 
 //builder.Services.AddScoped<ClientServices>();
-builder.Services.AddScoped<IClientRepository, ClientRepository>();
+//builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 

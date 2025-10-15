@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 
 namespace Domine.Interfaces
 {
-    public interface IClientRepository : IBaseRepository<Client>
+    public interface IUserRepository : IBaseRepository<User> 
     {
-        Client? Get(string name);
     }
 }

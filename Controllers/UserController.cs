@@ -5,7 +5,12 @@ namespace e_commerceAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ClientController : ControllerBase
+    public class UserController : ControllerBase
     {
+        [HttpPost]
+        public async Task<ActionResult> CreateUser()
+        {
+            return Ok();
+        }
     }
 }

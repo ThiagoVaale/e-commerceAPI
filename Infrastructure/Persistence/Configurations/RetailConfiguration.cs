@@ -20,8 +20,9 @@ namespace Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.HasOne(r => r.Client)
-                .WithOne(c => c.RetailClient)
-                .HasForeignKey<RetailClient>(r => r.ClientId);
+               .WithMany() 
+               .HasForeignKey(r => r.ClientId)
+               .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -23,14 +23,14 @@ namespace Infrastructure.Persistence.Configurations
                 .HasPrecision(18, 2);
 
             builder.HasOne(oi => oi.Order)
-                .WithMany(o => o.OrderItems)
+                .WithMany()
                 .HasForeignKey(oi => oi.OrderId)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.Cascade);
 
             builder.HasOne(oi => oi.Product)
-                .WithMany(p => p.OrderItems)
+                .WithMany()
                 .HasForeignKey(oi => oi.ProductId)
-                .IsRequired();
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -17,8 +17,6 @@ namespace Domine.Entities
         public bool IsActive { get; set; }
         public string ImageUrl { get; set; }
 
-        public ICollection<CartItem> CartItems { get; set; } = new List<CartItem>();
-        public ICollection<OrderItems> OrderItems { get; set; } = new List<OrderItems>();
         public Category Category { get; set; }
     }
 }

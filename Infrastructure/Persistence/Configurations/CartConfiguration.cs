@@ -16,7 +16,7 @@ namespace Infrastructure.Persistence.Configurations
             builder.HasKey(c => c.Id);
 
             builder.HasOne(c => c.User)
-                .WithMany(u => u.Carts)
+                .WithMany()
                 .HasForeignKey(c => c.UserId);
 
             builder.HasMany(c => c.CartItems)

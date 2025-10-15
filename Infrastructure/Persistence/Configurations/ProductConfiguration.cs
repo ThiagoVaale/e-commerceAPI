@@ -36,18 +36,9 @@ namespace Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.HasOne(p => p.Category)
-                .WithMany(c => c.Products)
-                .HasForeignKey(p => p.CategoryId);
-
-            builder.HasMany(p => p.CartItems)
-                .WithOne(ci => ci.Product)
-                .HasForeignKey(ci => ci.ProductId)
-                .IsRequired();
-
-            builder.HasMany(p => p.OrderItems)
-                .WithOne(oi => oi.Product)
-                .HasForeignKey(oi => oi.ProductId)
-                .IsRequired();
+                .WithMany()
+                .HasForeignKey(p => p.CategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }
