@@ -5,11 +5,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Dtos
+namespace Application.Dtos.Requests
 {
-    public class RoleModel
+    public class RoleCreate
     {
-        public Guid Id { get; set; }
-        public string Name { get; set; }
+        public RoleType Name { get; set; }
     }
 }

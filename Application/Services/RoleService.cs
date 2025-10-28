@@ -1,4 +1,4 @@
-﻿using Application.Dtos;
+﻿using Application.Dtos.Requests;
 using Application.Interfaces;
 using Domine.Entities;
 using Domine.Enums;
@@ -27,7 +27,7 @@ namespace Application.Services
 
         public async Task<Role?> Create(RoleCreate roleCreate)
         {
-            Role? existing = await _roleRepository.Get(roleCreate.Name);
+            Role? existing = await _roleRepository.GetAsync(roleCreate.Name);
             if (existing != null)
             {
                 throw new InvalidOperationException($"Role '{roleCreate.Name}' already exists.");

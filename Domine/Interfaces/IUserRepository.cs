@@ -9,5 +9,7 @@ namespace Domine.Interfaces
 {
     public interface IUserRepository : IBaseRepository<User> 
     {
+        Task<List<User>> GetAsync();
+        Task<User?> GetAsync(string username);
     }
 }

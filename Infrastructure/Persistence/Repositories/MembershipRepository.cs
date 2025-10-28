@@ -10,16 +10,16 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repositories
 {
-    public class RoleRepository : BaseRepository<Role>, IRoleRepository
+    public class MembershipRepository : BaseRepository<Membership>, IMembershipRepository
     {
         private readonly eCommerceContext _context;
-        public RoleRepository(eCommerceContext context) : base(context)
+        public MembershipRepository(eCommerceContext context) : base(context)
         {
             _context = context;
         }
-        public async Task<Role?> GetAsync(RoleType roleName)
+        public async Task<Membership?> Get(MembershipType membership)
         {
-            return await _context.Roles.FirstOrDefaultAsync(r => r.Name == roleName);
-        } 
+            return await _context.Memberships.FirstOrDefaultAsync(m => m.MembershipType == membership);
+        }
     }
 }

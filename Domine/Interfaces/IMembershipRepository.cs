@@ -8,8 +8,8 @@ using System.Threading.Tasks;
 
 namespace Domine.Interfaces
 {
-    public interface IRoleRepository : IBaseRepository<Role>
+    public interface IMembershipRepository : IBaseRepository<Membership>
     {
-        Task<Role?> GetAsync(RoleType roleName);
+        Task<Membership?> Get(MembershipType membership);
     }
 }

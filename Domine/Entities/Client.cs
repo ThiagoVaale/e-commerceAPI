@@ -12,8 +12,8 @@ namespace Domine.Entities
     {
         
         public Guid UserID { get; set; }
-        public Guid MembershipId { get; set; }
-        public string Address { get; set; }
+        public string? Address { get; set; }
+        public string? Phone { get; set; }
 
         public User User { get; set; }
         public Membership Membership { get; set; }

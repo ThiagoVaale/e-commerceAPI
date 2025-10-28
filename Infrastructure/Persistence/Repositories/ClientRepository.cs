@@ -1,5 +1,4 @@
 ﻿using Domine.Entities;
-using Domine.Enums;
 using Domine.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -10,16 +9,12 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Repositories
 {
-    public class RoleRepository : BaseRepository<Role>, IRoleRepository
+    public class ClientRepository : BaseRepository<Client>, IClientRepository
     {
         private readonly eCommerceContext _context;
-        public RoleRepository(eCommerceContext context) : base(context)
+        public ClientRepository(eCommerceContext context) : base(context)
         {
             _context = context;
         }
-        public async Task<Role?> GetAsync(RoleType roleName)
-        {
-            return await _context.Roles.FirstOrDefaultAsync(r => r.Name == roleName);
-        } 
     }
 }

@@ -11,6 +11,8 @@ namespace Domine.Interfaces
         T? Get<TId>(TId id);
         Task<List<T>> Get();
         Task Add(T entity);
+        Task Update(T entity);
+        Task Delete(T entity);
         Task SaveChangesAsync();
     }
 }

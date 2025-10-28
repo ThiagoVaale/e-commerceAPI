@@ -4,13 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domine.Enums
+namespace Application.Services
 {
-    public enum MembershipType
+    public class ClientService
     {
-        Bronze,
-        Silver,
-        Gold,
-        Platinum
     }
 }

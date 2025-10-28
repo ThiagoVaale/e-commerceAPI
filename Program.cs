@@ -1,9 +1,11 @@
 using Application.Interfaces;
 using Application.Services;
 using Domine.Interfaces;
+using e_commerceAPI.Middlewares;
 using Infrastructure;
 using Infrastructure.Persistence;
 using Infrastructure.Persistence.Repositories;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
@@ -64,10 +66,12 @@ builder.Services.AddAuthentication("Bearer") //"Bearer" es el tipo de auntentica
     }
 );
 
-//builder.Services.AddScoped<ClientServices>();
-//builder.Services.AddScoped<IClientRepository, ClientRepository>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IClientRepository, ClientRepository>();
 builder.Services.AddScoped<IRoleService, RoleService>();
 builder.Services.AddScoped<IRoleRepository, RoleRepository>();
+builder.Services.AddScoped<IPasswordHash, PasswordHash>();
 
 // Add services --> HttpClient Factory + Polly + Circuit Breaker + Retry
 builder.Services.AddControllers();
@@ -87,6 +91,8 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 
 app.UseAuthorization();
+
+app.UseMiddleware<ExceptionMiddleware>();
 
 app.MapControllers();
 

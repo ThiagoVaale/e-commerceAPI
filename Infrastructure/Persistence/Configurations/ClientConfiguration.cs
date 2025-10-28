@@ -23,11 +23,6 @@ namespace Infrastructure.Persistence.Configurations
                 .HasForeignKey(c => c.UserID)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(c => c.Membership)
-                .WithMany()
-                .HasForeignKey(c => c.MembershipId)
-                .OnDelete(DeleteBehavior.Restrict);
-
             builder.HasOne<RetailClient>()
                 .WithOne(r => r.Client)
                 .HasForeignKey<RetailClient>(r => r.ClientId)

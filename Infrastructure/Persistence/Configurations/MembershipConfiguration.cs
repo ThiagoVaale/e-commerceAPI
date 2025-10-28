@@ -20,19 +20,12 @@ namespace Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.Property(m => m.DiscountRate)
-               .IsRequired()
                .HasPrecision(5, 2);
 
-            builder.Property(m => m.ValidFrom)
-               .IsRequired();
-
-            builder.Property(m => m.ValidTo)
-               .IsRequired();
-
             builder.HasOne(m => m.Client)
-               .WithMany() 
-               .HasForeignKey(m => m.ClientId)
-               .OnDelete(DeleteBehavior.Restrict);
+                .WithOne(c => c.Membership)
+                .HasForeignKey<Membership>(m => m.ClientId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -1,14 +1,13 @@
-﻿using Domine.Enums;
+﻿using Domine.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Dtos
+namespace Domine.Interfaces
 {
-    public class RoleCreate
+    public interface IClientRepository : IBaseRepository<Client>
     {
-        public RoleType Name { get; set; }
     }
 }
