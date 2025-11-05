@@ -11,7 +11,8 @@ namespace Infrastructure.Persistence.Configurations
             builder.HasKey(i => i.Id);
 
             builder.Property(tw => tw.TierWholesale)
-                .HasConversion<string>();
+                .HasConversion<string>()
+                .IsRequired();
 
             builder.Property(c => c.CompanyName)
                 .HasMaxLength(100)
@@ -30,8 +31,8 @@ namespace Infrastructure.Persistence.Configurations
                 .HasPrecision(18,2);
 
             builder.HasOne(tw => tw.Client)
-                .WithMany()
-                .HasForeignKey(tw => tw.ClientId)
+                .WithOne()
+                .HasForeignKey<WholesaleClient>(tw => tw.ClientId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

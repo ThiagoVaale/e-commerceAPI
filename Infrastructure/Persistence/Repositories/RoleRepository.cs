@@ -17,6 +17,14 @@ namespace Infrastructure.Persistence.Repositories
         {
             _context = context;
         }
+
+        public async Task<List<Role>> GetAsync()
+        {
+            return await _context.Roles
+                .Include(r => r.Users)
+                .Where(e => e.DeletedAt == null && e.Users.Any(u => u.DeletedAt == null))
+                .ToListAsync();
+        }
         public async Task<Role?> GetAsync(RoleType roleName)
         {
             return await _context.Roles.FirstOrDefaultAsync(r => r.Name == roleName);

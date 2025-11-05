@@ -19,18 +19,8 @@ namespace Infrastructure.Persistence.Configurations
                 .HasMaxLength(200);
 
             builder.HasOne(c => c.User)
-                .WithMany()
-                .HasForeignKey(c => c.UserID)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne<RetailClient>()
-                .WithOne(r => r.Client)
-                .HasForeignKey<RetailClient>(r => r.ClientId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            builder.HasOne<WholesaleClient>()
-                .WithOne(w => w.Client)
-                .HasForeignKey<WholesaleClient>(w => w.ClientId)
+                .WithOne()
+                .HasForeignKey<Client>(c => c.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

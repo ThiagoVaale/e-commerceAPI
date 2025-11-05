@@ -26,16 +26,19 @@ namespace Infrastructure.Persistence.Configurations
             builder.HasIndex(p => p.TransactionId)
                .IsUnique();
 
-            builder.HasOne(p => p.Order)
-                .WithMany()
-                .HasForeignKey(p => p.OrderId)
-                .OnDelete(DeleteBehavior.Cascade);
-
             builder.Property(ps => ps.PaymentStatus)
-                   .HasConversion<string>();
+                   .HasConversion<string>()
+                   .IsRequired();
 
             builder.Property(pm => pm.PaymentMethod)
-                   .HasConversion<string>();
+                   .HasConversion<string>()
+                   .IsRequired();
+
+            builder.HasOne(p => p.Order)
+                .WithOne(o => o.Payment)
+                .HasForeignKey<Payment>(p => p.OrderId)
+                .OnDelete(DeleteBehavior.Restrict);
+
         }
     }
 }

@@ -23,8 +23,8 @@ namespace Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.HasOne(e => e.User)
-                .WithMany()
-                .HasForeignKey(e => e.UserID)
+                .WithOne()
+                .HasForeignKey<Employee>(e => e.UserID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

@@ -28,5 +28,13 @@ namespace e_commerceAPI.Controllers
             Role? role = await _roleService.Create(roleCreate);
             return Ok(role);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> DeleteRole(Guid id)
+        {
+            await _roleService.DeleteRole(id);
+            return NoContent();
+        }
+
     }
 }

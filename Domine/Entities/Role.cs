@@ -12,10 +12,6 @@ namespace Domine.Entities
 {
     public class Role : BaseEntity
     {
-
         public RoleType Name { get; set; }
-        
-        public ICollection<User> Users { get; set; } = new List<User>();
-
     }
 }

@@ -11,12 +11,14 @@ namespace Domine.Entities
     {
         public Guid ClientId { get; set; }
         public Guid EmployeeId { get; set; }
+
         public string ShippingAddress { get; set; } 
         public decimal TotalAmount { get; set; }
         public StatusOrder StatusOrder { get; set; }
         public PaymentMethod PaymentMethod { get; set; }
 
-        public Client Client { get; set; }
-        public Employee Employee { get; set; }
+        public List<OrderItem> Items { get; set; }
+
+        public Payment? Payment { get; set; }
     }
 }

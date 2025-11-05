@@ -10,6 +10,7 @@ namespace Domine.Entities
     public class Payment : BaseEntity
     {
         public Guid OrderId { get; set; }
+
         public decimal Amount { get; set; }
         public string TransactionId { get; set; }
         public PaymentStatus PaymentStatus { get; set; }

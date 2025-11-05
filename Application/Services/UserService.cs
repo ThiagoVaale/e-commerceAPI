@@ -118,7 +118,7 @@ namespace Application.Services
 
             if (!isValidPassword)
             {
-                throw new ConflictException("orrect operation: The current password is incorrect.");
+                throw new ConflictException("incorrect operation: The current password is incorrect.");
             }
 
             string hashedPassword = _passwordHash.Hash(changePassword.NewPassword);

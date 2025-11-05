@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Infrastructure.Persistence.Configurations
 {
-    public class OrderItemsConfiguration : IEntityTypeConfiguration<OrderItems>
+    public class OrderItemsConfiguration : IEntityTypeConfiguration<OrderItem>
     {
-        public void Configure(EntityTypeBuilder<OrderItems> builder)
+        public void Configure(EntityTypeBuilder<OrderItem> builder)
         {
             builder.HasKey(oi => oi.Id);
 
@@ -23,7 +23,7 @@ namespace Infrastructure.Persistence.Configurations
                 .HasPrecision(18, 2);
 
             builder.HasOne(oi => oi.Order)
-                .WithMany()
+                .WithMany(o => o.Items)
                 .HasForeignKey(oi => oi.OrderId)
                 .OnDelete(DeleteBehavior.Cascade);
 

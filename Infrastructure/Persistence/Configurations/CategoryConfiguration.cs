@@ -21,6 +21,11 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.Property(c => c.Description)
                 .HasMaxLength(500);
+
+            builder.HasOne(c => c.ParentCategory)
+                .WithMany(c => c.Subcategories)
+                .HasForeignKey(c => c.ParentCategoryId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

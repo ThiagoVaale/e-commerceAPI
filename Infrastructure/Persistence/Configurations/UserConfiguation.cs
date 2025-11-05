@@ -26,6 +26,11 @@ namespace Infrastructure.Persistence.Configurations
 
             builder.Property(p => p.Password)
                 .IsRequired();
+
+            builder.HasOne(u => u.Role)
+                .WithMany()
+                .HasForeignKey(u => u.RoleId)
+                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

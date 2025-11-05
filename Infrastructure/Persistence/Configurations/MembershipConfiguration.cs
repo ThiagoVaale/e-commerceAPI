@@ -22,9 +22,9 @@ namespace Infrastructure.Persistence.Configurations
             builder.Property(m => m.DiscountRate)
                .HasPrecision(5, 2);
 
-            builder.HasOne(m => m.Client)
+            builder.HasOne<RetailClient>()
                 .WithOne(c => c.Membership)
-                .HasForeignKey<Membership>(m => m.ClientId)
+                .HasForeignKey<Membership>(m => m.RetailClientID)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

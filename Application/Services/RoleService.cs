@@ -1,4 +1,5 @@
 ﻿using Application.Dtos.Requests;
+using Application.Exceptions;
 using Application.Interfaces;
 using Domine.Entities;
 using Domine.Enums;
@@ -22,7 +23,7 @@ namespace Application.Services
 
         public async Task<IEnumerable<Role>> Get()
         {
-            return await _roleRepository.Get();
+            return await _roleRepository.GetAsync();
         }
 
         public async Task<Role?> Create(RoleCreate roleCreate)
@@ -43,6 +44,19 @@ namespace Application.Services
             await _roleRepository.Add(role);
             await _roleRepository.SaveChangesAsync();
             return role;
+        }
+
+        public async Task DeleteRole(Guid id)
+        {
+            Role? role = _roleRepository.Get(id);
+
+            if (role == null)
+            {
+                throw new ConflictException($"Role with ID '{id}' not found.");
+            }
+
+            await _roleRepository.Delete(role);
+            await _roleRepository.SaveChangesAsync();
         }
     }
 }

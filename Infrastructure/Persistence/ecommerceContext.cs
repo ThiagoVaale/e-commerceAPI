@@ -13,7 +13,7 @@ namespace Infrastructure.Persistence
         public DbSet<Employee> Employees { get; set; }
         public DbSet<Membership> Memberships { get; set; }
         public DbSet<Order> Orders { get; set; }
-        public DbSet<OrderItems> OrderItems { get; set; }
+        public DbSet<OrderItem> OrderItems { get; set; }
         public DbSet<Payment> Payments { get; set; }
         public DbSet<Product> Products { get; set; }
         public DbSet<RetailClient> RetailClients { get; set; }

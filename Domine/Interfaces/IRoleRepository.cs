@@ -10,6 +10,7 @@ namespace Domine.Interfaces
 {
     public interface IRoleRepository : IBaseRepository<Role>
     {
+        Task<List<Role>> GetAsync();
         Task<Role?> GetAsync(RoleType roleName);
     }
 }

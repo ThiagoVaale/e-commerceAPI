@@ -12,5 +12,6 @@ namespace Application.Interfaces
     {
         Task<IEnumerable<Role>> Get();
         Task<Role?> Create(RoleCreate roleCreate);
+        Task DeleteRole(Guid id);
     }
 }

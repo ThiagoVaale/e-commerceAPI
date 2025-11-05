@@ -21,11 +21,6 @@ namespace Infrastructure.Persistence.Configurations
             builder.Property(r => r.Name)
                 .IsRequired()
                 .HasConversion<string>();
-
-            builder.HasMany(r => r.Users)
-                .WithOne(u => u.Role)
-                .HasForeignKey(u => u.RoleId)
-                .OnDelete(DeleteBehavior.Restrict);
         }
     }
 }

@@ -15,6 +15,7 @@ namespace Domine.Entities
         public string Cuit { get; set; }
         public string BillingAddress { get; set; }
         public decimal CreditLimit { get; set; }
+
         public TierWholesale TierWholesale { get; set; }
 
         public Client Client { get; set; }

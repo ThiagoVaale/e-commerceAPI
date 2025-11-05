@@ -15,13 +15,15 @@ namespace Infrastructure.Persistence.Configurations
         {
             builder.HasKey(c => c.Id);
 
-            builder.HasOne(c => c.User)
-                .WithMany()
-                .HasForeignKey(c => c.UserId);
+            builder.HasOne(c => c.Client)
+                .WithOne()
+                .HasForeignKey<Cart>(c => c.ClientId)
+                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasMany(c => c.CartItems)
                 .WithOne(ci => ci.Cart)
-                .HasForeignKey(ci => ci.CartId);
+                .HasForeignKey(ci => ci.CartId)
+                .OnDelete(DeleteBehavior.Cascade); 
         }
     }
 }

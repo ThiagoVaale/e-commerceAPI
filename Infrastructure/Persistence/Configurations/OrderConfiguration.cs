@@ -25,20 +25,27 @@ namespace Infrastructure.Persistence.Configurations
                 .HasPrecision(18, 2);
 
             builder.Property(so => so.StatusOrder)
-                .HasConversion<string>();
+                .HasConversion<string>()
+                .IsRequired();
 
             builder.Property(pm => pm.PaymentMethod)
-                .HasConversion<string>();
+                .HasConversion<string>()
+                .IsRequired();
 
-            builder.HasOne(o => o.Client)
+            builder.HasOne<Client>()
                 .WithMany()
                 .HasForeignKey(o => o.ClientId)
                 .OnDelete(DeleteBehavior.Restrict);
 
-            builder.HasOne(o => o.Employee)
+            builder.HasOne<Employee>()
                  .WithMany()
                  .HasForeignKey(o => o.EmployeeId)
                  .OnDelete(DeleteBehavior.Restrict);
+
+            builder.HasOne(o => o.Payment)
+                .WithOne(p => p.Order)
+                .HasForeignKey<Payment>(p => p.OrderId)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }
