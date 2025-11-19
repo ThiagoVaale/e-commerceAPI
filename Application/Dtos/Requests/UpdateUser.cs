@@ -9,10 +9,8 @@ namespace Application.Dtos.Requests
 {
     public class UpdateUser
     {
-        [Required]
         public string Username { get; set; }
 
-        [Required]
         [EmailAddress]
         public string Email { get; set; }
     }

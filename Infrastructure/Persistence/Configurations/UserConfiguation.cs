@@ -24,9 +24,6 @@ namespace Infrastructure.Persistence.Configurations
                 .IsRequired()
                 .HasMaxLength(100);
 
-            builder.Property(p => p.Password)
-                .IsRequired();
-
             builder.HasOne(u => u.Role)
                 .WithMany()
                 .HasForeignKey(u => u.RoleId)

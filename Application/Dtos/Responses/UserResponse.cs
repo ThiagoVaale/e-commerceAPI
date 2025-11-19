@@ -1,4 +1,5 @@
-﻿using Domine.Enums;
+﻿using Domine.Entities;
+using Domine.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,9 +10,8 @@ namespace Application.Dtos.Responses
 {
     public class UserResponse
     {
-        public string Username { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
+        public string? Username { get; set; }
+        public string? Email { get; set; }
         public RoleType Role { get; set; }
     }
 }

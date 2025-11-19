@@ -1,4 +1,5 @@
 ﻿using Domine.Entities;
+using Domine.Enums;
 using Domine.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -15,6 +16,15 @@ namespace Infrastructure.Persistence.Repositories
         public ClientRepository(eCommerceContext context) : base(context)
         {
             _context = context;
+        }
+
+        public async Task<Client?> GetClientByUserIdAsync(Guid userId)
+        {
+            return await _context.Clients
+                .Include(c => c.RetailClient)
+                    .ThenInclude(rc => rc.Membership)
+                .Include(c => c.WholesaleClient)
+                .FirstOrDefaultAsync(c => c.UserId == userId);
         }
     }
 }

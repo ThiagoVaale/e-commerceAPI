@@ -1,4 +1,4 @@
-﻿using Domine.Enums;
+﻿    using Domine.Enums;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -15,5 +15,8 @@ namespace Domine.Entities
 
         public Guid UserId { get; set; }
         public User User { get; set; }
+        
+        public RetailClient? RetailClient { get; set; }
+        public WholesaleClient? WholesaleClient { get; set; }
     }
 }

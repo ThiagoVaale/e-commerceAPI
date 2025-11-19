@@ -16,34 +16,33 @@ namespace Application.Services
     public class UserService : IUserService
     {
         private readonly IUserRepository _userRepository;
-        private readonly IClientRepository _clientRepository;
         private readonly IRoleRepository _roleRepository;
         private readonly IPasswordHash _passwordHash;
-        public UserService(IUserRepository userRepository, IClientRepository clientRepository, IRoleRepository roleRepository, IPasswordHash passwordHash)
+
+        public UserService(IUserRepository userRepository, IRoleRepository roleRepository, IPasswordHash passwordHash)
         {
             _userRepository = userRepository;
-            _clientRepository = clientRepository;
             _roleRepository = roleRepository;
             _passwordHash = passwordHash;
         }
 
-        public async Task<UserResponse> CreateUser(CreateUser userRequest)
+        public async Task<UserResponse> CreateUser(CreateUser createUser)
         {
-            User? user = await _userRepository.GetAsync(userRequest.Username);
+            User? user = await _userRepository.GetAsync(createUser.Username);
 
             if (user is not null)
             {
                 throw new ConflictException($"Incorrect operation: The user {user.Username} cannot be created because it already exists.");
             }
 
-            Role? role = await _roleRepository.GetAsync(RoleType.Client);
-            string passwordHashed = _passwordHash.Hash(userRequest.Password);
+            Role? role = await _roleRepository.GetAsync(RoleType.User);
+            string passwordHashed = _passwordHash.Hash(createUser.Password);
 
             User newUser = new User
             {
-                Username = userRequest.Username,
+                Username = createUser.Username,
                 Password = passwordHashed,
-                Email = userRequest.Email,
+                Email = createUser.Email,
                 Role = role,
                 CreatedAt = DateTime.UtcNow,
                 UpdatedAt = DateTime.UtcNow,
@@ -52,34 +51,28 @@ namespace Application.Services
             await _userRepository.Add(newUser);
             await _userRepository.SaveChangesAsync();
 
-            Membership membership = new Membership
-            {
-                MembershipType = MembershipType.Bronze,
-                DiscountRate = 0m,
-                ValidFrom = null,
-                ValidTo = null,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-            };
-
-            Client newClient = new Client
-            {
-                UserID = newUser.Id,
-                Address = null,
-                Phone = null,
-                Membership = membership,
-                CreatedAt = DateTime.UtcNow,
-                UpdatedAt = DateTime.UtcNow,
-            };
-
-            await _clientRepository.Add(newClient);
-            await _clientRepository.SaveChangesAsync();
-
             return new UserResponse
             {
                 Username = newUser.Username,
                 Email = newUser.Email,
-                Role = RoleType.Client
+                Role = newUser.Role.Name
+            };
+        }
+
+        public async Task<UserResponse> GetUser(Guid id)
+        {
+            User? user = _userRepository.Get(id);
+
+            if (user is null)
+            {
+                throw new ConflictException($"Incorrect operation: The user {user.Username} cannot be retrieved because not exists.");
+            }
+
+            return new UserResponse
+            {
+                Username = user.Username,
+                Email = user.Email,
+                Role = user.Role.Name
             };
         }
 
@@ -92,8 +85,8 @@ namespace Application.Services
                 throw new ConflictException($"Incorrect operation: The user {user.Username} cannot be updated because not exists.");
             }
 
-            user.Username = updateUser.Username;
             user.Email = updateUser.Email;
+            user.Username = updateUser.Username;
             user.UpdatedAt = DateTime.UtcNow;
 
             await _userRepository.Update(user);
@@ -105,29 +98,7 @@ namespace Application.Services
                 Email = user.Email,
             };
         }
-
-        public async Task NewPassword(Guid id, ChangePassword changePassword)
-        {
-            User? user = _userRepository.Get(id);
-            if (user is null)
-            {
-                throw new ConflictException($"Incorrect operation: The user {user.Username} cannot change password because not exists.");
-            }
-
-            bool isValidPassword = _passwordHash.Verify(changePassword.Password, user.Password);
-
-            if (!isValidPassword)
-            {
-                throw new ConflictException("incorrect operation: The current password is incorrect.");
-            }
-
-            string hashedPassword = _passwordHash.Hash(changePassword.NewPassword);
-            user.Password = hashedPassword;
-
-            await _userRepository.Update(user);
-            await _userRepository.SaveChangesAsync();
-        }
-
+  
         public async Task DeleteUser(Guid id)
         {
             User? user = _userRepository.Get(id);
@@ -137,25 +108,30 @@ namespace Application.Services
                 throw new ConflictException($"Incorrect operation: The user {user.Username} cannot be deleted because not exists.");
             }
 
-            await _userRepository.Delete(user);
+            if (user.DeletedAt != null)
+            {
+                throw new ConflictException($"Incorrect operation: The user {user.Username} cannot be deleted because it is already deleted.");
+            }
+
+            user.DeletedAt = DateTime.UtcNow;
+            user.Password = null;
+
+            await _userRepository.Update(user);
             await _userRepository.SaveChangesAsync();
         }
 
-        public async Task<List<UserResponse>> Get()
+        public async Task<User> Login(CredentialsRequest credentialsRequest)
         {
-            List<User> users = await _userRepository.GetAsync();
+            User? user = await _userRepository.GetUserForLoginAsync(credentialsRequest.Username);
 
-            if (users is null)
+            bool validPassword = _passwordHash.Verify(credentialsRequest.Password, user.Password);
+
+            if (user is null || !validPassword)
             {
-                throw new ConflictException("Incorrect operation: There are no users to display.");
+                throw new UnauthorizedException("Incorrect operation: Incorrect username or password");
             }
 
-            return users.Select(u => new UserResponse
-            {
-                Username = u.Username,
-                Email = u.Email,
-                Role = u.Role.Name
-            }).ToList();
+            return user;
         }
     }
 }

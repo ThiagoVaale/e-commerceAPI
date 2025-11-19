@@ -13,8 +13,7 @@ using System.Threading.Tasks;
 
 namespace Application.Services
 {
-    public class ClientService : IClientService
+    public class EmployeeService : IEmployeeService
     {
-        
     }
 }

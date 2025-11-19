@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace Domine.Interfaces
 {
-    public interface IUserRepository : IBaseRepository<User> 
+    public interface IUserRepository : IBaseRepository<User>
     {
-        Task<List<User>> GetAsync();
+        Task<User?> GetUserForLoginAsync(string username);
         Task<User?> GetAsync(string username);
     }
 }

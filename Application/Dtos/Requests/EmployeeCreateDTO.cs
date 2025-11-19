@@ -7,12 +7,16 @@ using System.Threading.Tasks;
 
 namespace Application.Dtos.Requests
 {
-    public class CredentialsRequest
+    public class EmployeeCreateDTO
     {
         [Required]
-        public string Username { get; set; }
+        public DateTime HireDate { get; set; }
 
         [Required]
-        public string Password { get; set; }
+        public decimal Salary { get; set; }
+
+        [Required]
+        [Phone]
+        public string Phone { get; set; }
     }
 }

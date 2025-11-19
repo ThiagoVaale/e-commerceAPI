@@ -31,7 +31,7 @@ namespace Infrastructure.Persistence.Configurations
                 .HasPrecision(18,2);
 
             builder.HasOne(tw => tw.Client)
-                .WithOne()
+                .WithOne(c => c.WholesaleClient)
                 .HasForeignKey<WholesaleClient>(tw => tw.ClientId)
                 .OnDelete(DeleteBehavior.Restrict);
         }

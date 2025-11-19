@@ -20,13 +20,13 @@ namespace Infrastructure.Persistence.Configurations
                 .IsRequired();
 
             builder.HasOne(r => r.Client)
-               .WithOne() 
+               .WithOne(c => c.RetailClient) 
                .HasForeignKey<RetailClient>(r => r.ClientId)
                .OnDelete(DeleteBehavior.Restrict);
 
             builder.HasOne(r => r.Membership)
-                .WithOne()
-                .HasForeignKey<Membership>(m => m.RetailClientID)
+                .WithOne(m => m.RetailClient)
+                .HasForeignKey<Membership>(m => m.RetailClientId)
                 .OnDelete(DeleteBehavior.Restrict);
         }
     }

@@ -7,12 +7,9 @@ using System.Threading.Tasks;
 
 namespace Application.Dtos.Requests
 {
-    public class CredentialsRequest
+    public class UpdateRetail
     {
-        [Required]
-        public string Username { get; set; }
-
-        [Required]
-        public string Password { get; set; }
+        public string? Address { get; set; }
+        public string? Phone { get; set; }
     }
 }

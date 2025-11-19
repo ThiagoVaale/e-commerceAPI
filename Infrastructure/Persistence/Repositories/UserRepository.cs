@@ -1,4 +1,6 @@
-﻿using Domine.Entities;
+﻿using Application.Dtos.Requests;
+using Domine.Entities;
+using Domine.Enums;
 using Domine.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using System;
@@ -17,12 +19,11 @@ namespace Infrastructure.Persistence.Repositories
             _context = context;
         }
 
-        public async Task<List<User>> GetAsync()
+        public async Task<User?> GetUserForLoginAsync(string username)
         {
             return await _context.Users
                 .Include(u => u.Role)
-                .Where(e => e.DeletedAt == null)
-                .ToListAsync();
+                .FirstOrDefaultAsync(u => u.Username == username);
         }
 
         public async Task<User?> GetAsync(string username)

@@ -19,31 +19,24 @@ namespace e_commerceAPI.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
-        public async Task<ActionResult> GetUsers()
-        {
-            List<UserResponse> users = await _userService.Get();
-            return Ok(users);
-        }
-
-        [HttpPost]
+        [HttpPost("register")]
         public async Task<ActionResult> CreateUser(CreateUser createUser)
         {
             UserResponse user = await _userService.CreateUser(createUser);
-            return CreatedAtAction(nameof(CreateUser), new { username = user.Username }, user);
+            return base.CreatedAtAction(nameof(Application.Dtos.Requests.CreateUser), new { username = user.Username }, user);
+        }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<UserResponse>> GetUser(Guid id)
+        {
+            UserResponse user = await _userService.GetUser(id);
+            return Ok(user);
         }
 
         [HttpPatch("{id}")]
         public async Task<ActionResult> UpdateUser(Guid id, UpdateUser updateUser)
         {
             await _userService.UpdateUser(id, updateUser);
-            return NoContent();
-        }
-
-        [HttpPatch("change-password/{id}")]
-        public async Task<ActionResult> NewPassword(Guid id, ChangePassword changePassword)
-        {
-            await _userService.NewPassword(id, changePassword);
             return NoContent();
         }
 

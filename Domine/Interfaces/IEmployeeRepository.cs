@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace Domine.Interfaces
 {
-    public interface IClientRepository : IBaseRepository<Client>
+    public interface IEmployeeRepository : IBaseRepository<Employee>
     {
-        Task<Client?> GetClientByUserIdAsync(Guid userId);
+        Task<Employee?> GetByUserIdAsync(Guid userId);
     }
 }

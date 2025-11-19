@@ -20,10 +20,7 @@ namespace Infrastructure.Persistence.Repositories
 
         public async Task<List<Role>> GetAsync()
         {
-            return await _context.Roles
-                .Include(r => r.Users)
-                .Where(e => e.DeletedAt == null && e.Users.Any(u => u.DeletedAt == null))
-                .ToListAsync();
+            return await _context.Roles.ToListAsync();
         }
         public async Task<Role?> GetAsync(RoleType roleName)
         {

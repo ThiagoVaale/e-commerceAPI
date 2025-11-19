@@ -11,6 +11,7 @@ namespace Domine.Enums
         Admin,
         Boss,
         Employee,
-        Client
+        Client,
+        User
     }
 }

@@ -13,7 +13,6 @@ namespace Domine.Entities
         public string Dni { get; set; }
 
         public Client Client { get; set; }  
-
         public Membership? Membership { get; set; }
     }
 }

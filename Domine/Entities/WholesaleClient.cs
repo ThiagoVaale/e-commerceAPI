@@ -17,7 +17,6 @@ namespace Domine.Entities
         public decimal CreditLimit { get; set; }
 
         public TierWholesale TierWholesale { get; set; }
-
         public Client Client { get; set; }
     }
 }

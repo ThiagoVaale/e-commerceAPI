@@ -4,15 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Domine.Entities
+namespace Application.Dtos.Responses
 {
-    public class User : BaseEntity
+    public class EmployeeResponse
     {
         public string Username { get; set; }
-        public string? Password { get; set; }
         public string Email { get; set; }
-        
-        public Guid RoleId { get; set; }
-        public Role Role { get; set; }
+        public DateTime HireDate { get; set; }
+        public decimal Salary { get; set; }
+        public string? Phone { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using System;
 using Infrastructure.Persistence;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
@@ -11,9 +12,11 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(eCommerceContext))]
-    partial class eCommerceContextModelSnapshot : ModelSnapshot
+    [Migration("20251105181358_update_referenceNull_in_userPassword_fluentAPI")]
+    partial class update_referenceNull_in_userPassword_fluentAPI
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -168,9 +171,6 @@ namespace Infrastructure.Migrations
                     b.Property<DateTime>("HireDate")
                         .HasColumnType("timestamp with time zone");
 
-                    b.Property<string>("Phone")
-                        .HasColumnType("text");
-
                     b.Property<decimal>("Salary")
                         .HasPrecision(18, 2)
                         .HasColumnType("numeric(18,2)");
@@ -209,7 +209,7 @@ namespace Infrastructure.Migrations
                         .IsRequired()
                         .HasColumnType("text");
 
-                    b.Property<Guid>("RetailClientId")
+                    b.Property<Guid>("RetailClientID")
                         .HasColumnType("uuid");
 
                     b.Property<DateTime>("UpdatedAt")
@@ -223,7 +223,7 @@ namespace Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("RetailClientId")
+                    b.HasIndex("RetailClientID")
                         .IsUnique();
 
                     b.ToTable("Memberships");
@@ -627,13 +627,11 @@ namespace Infrastructure.Migrations
 
             modelBuilder.Entity("Domine.Entities.Membership", b =>
                 {
-                    b.HasOne("Domine.Entities.RetailClient", "RetailClient")
+                    b.HasOne("Domine.Entities.RetailClient", null)
                         .WithOne("Membership")
-                        .HasForeignKey("Domine.Entities.Membership", "RetailClientId")
+                        .HasForeignKey("Domine.Entities.Membership", "RetailClientID")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
-
-                    b.Navigation("RetailClient");
                 });
 
             modelBuilder.Entity("Domine.Entities.Order", b =>
@@ -695,7 +693,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domine.Entities.RetailClient", b =>
                 {
                     b.HasOne("Domine.Entities.Client", "Client")
-                        .WithOne("RetailClient")
+                        .WithOne()
                         .HasForeignKey("Domine.Entities.RetailClient", "ClientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -717,7 +715,7 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domine.Entities.WholesaleClient", b =>
                 {
                     b.HasOne("Domine.Entities.Client", "Client")
-                        .WithOne("WholesaleClient")
+                        .WithOne()
                         .HasForeignKey("Domine.Entities.WholesaleClient", "ClientId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
@@ -733,13 +731,6 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domine.Entities.Category", b =>
                 {
                     b.Navigation("Subcategories");
-                });
-
-            modelBuilder.Entity("Domine.Entities.Client", b =>
-                {
-                    b.Navigation("RetailClient");
-
-                    b.Navigation("WholesaleClient");
                 });
 
             modelBuilder.Entity("Domine.Entities.Order", b =>

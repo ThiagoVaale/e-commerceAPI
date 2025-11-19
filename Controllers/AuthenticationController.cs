@@ -1,79 +1,110 @@
-﻿//using Application.Dtos;
-//using Application.Interfaces;
-//using Application.Services;
-//using Domine.Entities;
-//using Microsoft.AspNetCore.Http;
-//using Microsoft.AspNetCore.Mvc;
-//using Microsoft.IdentityModel.Tokens;
-//using System.IdentityModel.Tokens.Jwt;
-//using System.Security.Claims;
-//using System.Text;
+﻿using Application.Dtos;
+using Application.Dtos.Requests;
+using Application.Interfaces;
+using Application.Services;
+using Domine.Entities;
+using Domine.Enums;
+using Domine.Interfaces;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Reflection.Metadata.Ecma335;
+using System.Security.Claims;
+using System.Text;
 
-//namespace e_commerceAPI.Controllers
-//{
-//    [Route("api/[controller]")]
-//    [ApiController]
-//    public class AuthenticationController : ControllerBase
-//    {
-//        public IConfiguration _configuration;
-//        private readonly IUserService _userService;
-//        public AuthenticationController(IConfiguration configuration, IUserService userService)
-//        {
-//            _configuration = configuration;
-//            _userService = userService;
-//        }
+namespace e_commerceAPI.Controllers
+{
+    [Route("api/[controller]")]
+    [ApiController]
+    public class AuthenticationController : ControllerBase
+    {
+        public IConfiguration _configuration;
+        private readonly IUserService _userService;
+        private readonly IClientRepository _clientRepository;
+        private readonly IEmployeeRepository _employeeRepository;
+        public AuthenticationController(IConfiguration configuration, IUserService userService, IClientRepository clientRepository, IEmployeeRepository employeeRepository)
+        {
+            _configuration = configuration;
+            _userService = userService;
+            _clientRepository = clientRepository;
+            _employeeRepository = employeeRepository;
+        }   
 
-//        [HttpPost]
-//        public IActionResult Authenticate([FromBody] CredentialsRequest request)
-//        {
-//            // 1- Validamos credenciales.
-//            if (string.IsNullOrEmpty(request.Username) || (string.IsNullOrEmpty(request.Password)))
-//            {
-//                return BadRequest("Credenciales incorrectas, intentelo de nuevo");
-//            }
+        [HttpPost("login")]
+        public async Task<IActionResult> Authenticate([FromBody] CredentialsRequest request)
+        {
+            User? user = await _userService.Login(request);
 
-//            User? user = _userService.LoginUser(request);
+            Client? client = await _clientRepository.GetClientByUserIdAsync(user.Id);
 
-//            // 2- Crear el token.
-//            if (user is not null)
-//            {
-//                //El secret de la API va a estar encriptado por esta dos lineas.
+            Employee? employee = await _employeeRepository.GetByUserIdAsync(user.Id);
 
-//                //Secret de la API
-//                var saltEncrypted = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Authentication:SecretForKey"]));
-                
-//                //Como se firma el token, clave de la API, con el algoritmo de hasheo del token.
-//                var signature = new SigningCredentials(saltEncrypted, SecurityAlgorithms.HmacSha256);
+            var saltEncrypted = new SymmetricSecurityKey(Encoding.ASCII.GetBytes(_configuration["Authentication:SecretForKey"]));
 
-//                var claimsForToken = new List<Claim>()
-//                {
-//                    new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
-//                    new Claim(JwtRegisteredClaimNames.Email, user.Email),
-//                    new Claim("username", user.Username),
+            var signature = new SigningCredentials(saltEncrypted, SecurityAlgorithms.HmacSha256);
 
-//                    new Claim(ClaimTypes.Role, user.Role.ToString()),
+            List<Claim> claims = new List<Claim>()
+            {
+                new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+                new Claim("username", user.Username),
+                new Claim("email", user.Email),
+                new Claim(ClaimTypes.Role, user.Role.Name.ToString())
+            };
 
-//                    new Claim("clientId", user.Client.Id.ToString()),
+            bool isBoss = user.Role.Name == RoleType.Boss;
+            claims.Add(new Claim("isBoss", isBoss.ToString().ToLower()));
 
-//                    new Claim("retailMembership", user.Client?.Membership?.MembershipType.ToString() ?? "None"),
-//                    new Claim("wholesaleTier", user.Client?.WholesaleClient?.TierWholesale.ToString() ?? "None")
-//                };
-                
+            if (employee is not null)
+            {
+                claims.Add(new Claim("isEmployee", "true"));
+                claims.Add(new Claim("employeeId", employee.Id.ToString()));
+            }
+            else
+            {
+                claims.Add(new Claim("isEmployee", "false"));
+            }
 
-//                var jwtSecurityToken = new JwtSecurityToken(
-//                  _configuration["Authentication:Issuer"],
-//                  _configuration["Authentication:Audience"],
-//                  claimsForToken,
-//                  DateTime.UtcNow,
-//                  DateTime.UtcNow.AddHours(1),
-//                  signature);
+            if (client is not null)
+            {
+                claims.Add(new Claim("isClient", "true"));
+                claims.Add(new Claim("clientId", client.Id.ToString()));
 
-//                string tokenToReturn = new JwtSecurityTokenHandler()
-//                    .WriteToken(jwtSecurityToken);
+                if (client.RetailClient is not null)
+                {
+                    claims.Add(new Claim("clientType", "RetailClient"));
 
-//                return Ok(tokenToReturn);
-//            }
-//            return Unauthorized();
-//        }
-//    }
-//}
+                    if (client.RetailClient.Membership is not null)
+                    {
+                        claims.Add(new Claim("membership", client.RetailClient.Membership.MembershipType?.ToString() ?? "Null"));
+                        claims.Add(new Claim("membershipDiscount", client.RetailClient.Membership.DiscountRate?.ToString() ?? "0"));
+                    }
+                }
+
+                if (client.WholesaleClient is not null)
+                {
+                    claims.Add(new Claim("clientType", "WholesaleClient"));
+                    claims.Add(new Claim("tierWholesale", client.WholesaleClient.TierWholesale.ToString()));
+                    claims.Add(new Claim("creditLimit", client.WholesaleClient.CreditLimit.ToString()));
+                }
+            }
+            else
+            {
+                claims.Add(new Claim("isClient", "false"));
+            }
+
+            var jwtSecurityToken = new JwtSecurityToken(
+                  _configuration["Authentication:Issuer"],
+                  _configuration["Authentication:Audience"],
+                  claims: claims,
+                  DateTime.UtcNow,
+                  DateTime.UtcNow.AddHours(1),
+                  signature
+            );
+
+            string tokenToReturn = new JwtSecurityTokenHandler().WriteToken(jwtSecurityToken);
+
+            return Ok(new { accessToken = tokenToReturn });
+        }
+    }
+}

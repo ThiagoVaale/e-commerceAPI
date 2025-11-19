@@ -10,8 +10,9 @@ namespace Domine.Entities
     {
         public DateTime HireDate { get; set; }
         public decimal Salary { get; set; }
-
-        public Guid UserID { get; set; }
+        public string? Phone { get; set; }
+         
+        public Guid UserID { get; set; }    
         public User User { get; set; }
     }
 }
